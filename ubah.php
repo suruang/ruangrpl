@@ -4,7 +4,7 @@ require 'koneksi/koneksi.php';
 
 //tangkap id_siswa yg dikirim melalui URL
 $id_siswa = $_GET["id_siswa"];
-//Query Data Siswa
+//Query Data Siswa di tabel siswa
 
 $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'");
 
