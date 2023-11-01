@@ -4,44 +4,10 @@ require 'koneksi/koneksi.php';
 
 //tangkap id_siswa yg dikirim melalui URL
 $id_siswa = $_GET["id_siswa"];
+
 //Query Data Siswa di tabel siswa
 
 $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'");
-
-
-if(isset($_POST["ubah"])) {
-
-        // $id_siswa = $_POST["id_siswa"];
-        $nis = $_POST["nis"];
-        $nama = $_POST["nama"];
-        $tanggal_lahir = $_POST["tanggal_lahir"];
-        $jurusan = $_POST["jurusan"];
-        $alamat = $_POST["alamat"];
-        $status = $_POST["status"];
-        $gambar = $_POST["gambar"];
-
-    $ubah = mysqli_query($koneksi, "UPDATE siswa SET 
-    nis='$nis',
-    nama = '$nama',
-    tanggal_lahir = '$tanggal_lahir',
-    jurusan = '$jurusan',
-    alamat = '$alamat',
-    status = '$status',
-    gambar = '$gambar'
-    
-     WHERE id_siswa = '$id_siswa'
-    ");
-
-    if ($ubah) {
-        echo"<script>
-        alert('Data Berhasil Diubah');
-        document.location.href='siswa.php';
-        </script>";
-    }else {
-        echo"Data Gagal Disimpan";
-    }
-}
-
 
 
 
@@ -174,22 +140,24 @@ if(isset($_POST["ubah"])) {
                     <div class="form-group">
                       <label for="exampleInputEmail1">Nis</label>
                       <input type="text" name="nis" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Enter nis" required value="<?= $row["nis"]; ?>">
+                        placeholder="Enter nis" required value="<?=$row["nis"];?>" >
                 
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Nama</label>
-                      <input type="text" name="nama" class="form-control" id="exampleInputPassword1" placeholder="Nama" required value="<?= $row["nama"];?>">
+                      <input type="text" name="nama" class="form-control" id="exampleInputPassword1" 
+                      placeholder="Nama" required value="<?=$row["nama"];?>">
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Tanggal Lahir</label>
-                      <input type="date" name="tanggal_lahir" class="form-control" id="exampleInputPassword1" placeholder="Nama" required value="<?= $row["tanggal_lahir"];?>">
+                      <input type="date" name="tanggal_lahir" class="form-control" id="exampleInputPassword1" 
+                      placeholder="Nama" required value="<?=$row["tanggal_lahir"];?>">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Jurusan</label>
-                    <input class=" form-control" name="jurusan" id="select2Single"  value="<?= $row["jurusan"];?>">
-                      <!-- <option value="">Select</option>
+                    <input class=" form-control" name="jurusan" id="select2Single" required value="<?=$row["jurusan"];?>">
+                     <!-- <option value="">Select</option>
                       <option value="RPL">RPL</option>
                       <option value="TKJ">TKJ</option>
                       <option value="MM">MM</option>
@@ -207,7 +175,7 @@ if(isset($_POST["ubah"])) {
                     <div class="form-group">
                       <label for="exampleInputPassword1">Status</label>
                     <select class="form-control" name="status" id="select2Single">
-                      <option value="<?= $row["status"];?>">Select</option>
+                      <option value="">Select</option>
                       <option value="1">Aktif</option>
                       <option value="2">Tidak Aktif</option>
                       <option value="3">Lulus</option>
@@ -218,7 +186,7 @@ if(isset($_POST["ubah"])) {
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Gambar</label>
-                      <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required value="<?=$row["gambar"];?>">
+                      <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required >
                     </div>
                     
                     <!-- <div class="form-group">
