@@ -1,29 +1,16 @@
 <?php
-
-//Koneksi ke Database
+//panggil file koneksi
 require 'koneksi/koneksi.php';
 
-//cek koneksi
-// if($koneksi) {
-//   echo "Berhasil Koneksi Kedatabase";
-// }else {
-//   echo "Gagal Koneksi";
-// }
+//tangkap id_siswa yg dikirim melalui URL
+$id_siswa = $_GET["id_siswa"];
+//Query Data Siswa
 
-//Ambil Data / query di database
-$sql = "SELECT * FROM siswa";
-$data = mysqli_query($koneksi, $sql);
+$data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'");
 
-//Fetch Data / Tampilkan Data
-// mysqli_assoc : dia mengembalikan array Assosiatif
-// mysqli_array : dia mengembalikan array Assosiatif 
-// & array numeric
 
-// while ($tampil= mysqli_fetch_assoc($data)) {
-// var_dump($tampil);
-// };
 
-// $tampil = mysqli_fetch_assoc($data);
+
 
 ?>
 <!DOCTYPE html>
@@ -143,67 +130,78 @@ $data = mysqli_query($koneksi, $sql);
            
             <!-- DataTable with Hover -->
             <div class="col-lg-12">
-              <div class="card mb-4">
+             <!-- Form Basic -->
+              <div class="card mb-2">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Form Ubah Data Siswa</h6>
                 </div>
-                <div class="row">
-                  <a href="tambahsiswa.php" class="btn btn-outline-primary ml-4"> <i class="fas fa-plus"></i> Tambah</a>
-                </div>
+                <div class="card-body">
+                <?php while($row=mysqli_fetch_assoc($data)) :?>
+                  <form action="" method="POST">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Nis</label>
+                      <input type="text" name="nis" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        placeholder="Enter nis" required>
                 
-                <div class="table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="dataTableHover" width="">
-                    <thead class="thead-light">
-                      <tr>
-                        <!-- <th>Gambar</th> -->
-                        <th>Nis</th>
-                        <th>Nama</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Jurusan</th>
-                        <!-- <th>Alamat</th> -->
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                  
-                    <tbody>
-                      
-    <?php while($row=mysqli_fetch_assoc($data)): ?>
-                       <tr>
-                        <!-- <td><img src="img/logo/logo2.png" width="50"></td> -->
-                        <td><?= $row["nis"];?></td>
-                        <td><?= $row["nama"];?></td>
-                        <td><?= $row["tanggal_lahir"];?></td>
-                        <td><?= $row["jurusan"];?></td>
-                        <!-- <td>Desa Suruang, Kec. Campalagian</td> -->
-                        <td><?php 
-                        if( $row["status"] == 1) {
-                          echo "<span class='badge badge-success'>Aktif</span>";
-                        }else if($row["status"]== 2) {
-                          echo "<span class='badge badge-warning'>Tidak aktif</span>";
-                        }else {
-                          echo  "<span class='badge badge-info'>Lulus</span>";
-                        };?></td>
-                        <td>
-                           <a href="#" class="btn btn-warning btn-sm">
-                    <i class="fas fa-eye"></i>
-                  </a>  
-                           <a href="ubah.php?id_siswa=<?= $row["id_siswa"];?>" class="btn btn-success btn-sm">
-                    <i class="fas fa-edit"></i>
-                  </a> 
-                          <a href="hapus.php?id_siswa=<?= $row["id_siswa"];?>" onclick= "return confirm('Yakin Data Ingin Dihapus')"; class="btn btn-danger btn-sm">
-                    <i class="fas fa-trash"></i>
-                  </a></td>
-                      </tr>
-                    <?php endwhile; ?>
-                     
-                    </tbody>
-                  </table>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Nama</label>
+                      <input type="text" name="nama" class="form-control" id="exampleInputPassword1" placeholder="Nama" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Tanggal Lahir</label>
+                      <input type="date" name="tanggal_lahir" class="form-control" id="exampleInputPassword1" placeholder="Nama" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Jurusan</label>
+                    <select class=" form-control" name="jurusan" id="select2Single" required>
+                      <option value="">Select</option>
+                      <option value="RPL">RPL</option>
+                      <option value="TKJ">TKJ</option>
+                      <option value="MM">MM</option>
+                      <option value="TAV">TAV</option>
+                      <option value="TKR">TKR</option>
+                      <option value="TBSM">TBSM</option>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Alamat</label>
+                      <textarea class="form-control" name="alamat" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Status</label>
+                    <select class="form-control" name="status" id="select2Single" required>
+                      <option value="">Select</option>
+                      <option value="1">Aktif</option>
+                      <option value="2">Tidak Aktif</option>
+                      <option value="3">Lulus</option>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Gambar</label>
+                      <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required>
+                    </div>
+                    
+                    <!-- <div class="form-group">
+                      <div class="custom-file">
+                        <input type="text" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                      </div>
+                    </div> -->
+                    
+                    <button type="submit" name="simpan" class="btn btn-primary">Ubah</button>
+                  </form>
+                  <?php endwhile;?>
                 </div>
               </div>
             </div>
           </div>
           <!--Row-->
+
 
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
