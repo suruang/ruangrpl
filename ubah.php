@@ -9,6 +9,39 @@ $id_siswa = $_GET["id_siswa"];
 $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'");
 
 
+if(isset($_POST["ubah"])) {
+
+        // $id_siswa = $_POST["id_siswa"];
+        $nis = $_POST["nis"];
+        $nama = $_POST["nama"];
+        $tanggal_lahir = $_POST["tanggal_lahir"];
+        $jurusan = $_POST["jurusan"];
+        $alamat = $_POST["alamat"];
+        $status = $_POST["status"];
+        $gambar = $_POST["gambar"];
+
+    $ubah = mysqli_query($koneksi, "UPDATE siswa SET 
+    nis='$nis',
+    nama = '$nama',
+    tanggal_lahir = '$tanggal_lahir',
+    jurusan = '$jurusan',
+    alamat = '$alamat',
+    status = '$status',
+    gambar = '$gambar'
+    
+     WHERE id_siswa = '$id_siswa'
+    ");
+
+    if ($ubah) {
+        echo"<script>
+        alert('Data Berhasil Diubah');
+        document.location.href='siswa.php';
+        </script>";
+    }else {
+        echo"Data Gagal Disimpan";
+    }
+}
+
 
 
 
@@ -141,49 +174,51 @@ $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'
                     <div class="form-group">
                       <label for="exampleInputEmail1">Nis</label>
                       <input type="text" name="nis" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Enter nis" required>
+                        placeholder="Enter nis" required value="<?= $row["nis"]; ?>">
                 
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Nama</label>
-                      <input type="text" name="nama" class="form-control" id="exampleInputPassword1" placeholder="Nama" required>
+                      <input type="text" name="nama" class="form-control" id="exampleInputPassword1" placeholder="Nama" required value="<?= $row["nama"];?>">
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Tanggal Lahir</label>
-                      <input type="date" name="tanggal_lahir" class="form-control" id="exampleInputPassword1" placeholder="Nama" required>
+                      <input type="date" name="tanggal_lahir" class="form-control" id="exampleInputPassword1" placeholder="Nama" required value="<?= $row["tanggal_lahir"];?>">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Jurusan</label>
-                    <select class=" form-control" name="jurusan" id="select2Single" required>
-                      <option value="">Select</option>
+                    <input class=" form-control" name="jurusan" id="select2Single"  value="<?= $row["jurusan"];?>">
+                      <!-- <option value="">Select</option>
                       <option value="RPL">RPL</option>
                       <option value="TKJ">TKJ</option>
                       <option value="MM">MM</option>
                       <option value="TAV">TAV</option>
                       <option value="TKR">TKR</option>
-                      <option value="TBSM">TBSM</option>
-                    </select>
+                      <option value="TBSM">TBSM</option> -->
+                    </input>
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Alamat</label>
-                      <textarea class="form-control" name="alamat" required></textarea>
+                      <textarea class="form-control" name="alamat" required><?= $row["alamat"];?></textarea>
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Status</label>
-                    <select class="form-control" name="status" id="select2Single" required>
-                      <option value="">Select</option>
+                    <select class="form-control" name="status" id="select2Single">
+                      <option value="<?= $row["status"];?>">Select</option>
                       <option value="1">Aktif</option>
                       <option value="2">Tidak Aktif</option>
                       <option value="3">Lulus</option>
+
+             
                     </select>
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Gambar</label>
-                      <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required>
+                      <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required value="<?=$row["gambar"];?>">
                     </div>
                     
                     <!-- <div class="form-group">
@@ -193,7 +228,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'
                       </div>
                     </div> -->
                     
-                    <button type="submit" name="simpan" class="btn btn-primary">Ubah</button>
+                    <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
                   </form>
                   <?php endwhile;?>
                 </div>
