@@ -13,7 +13,16 @@ if(isset($_POST["simpan"])) {
   $jurusan = htmlspecialchars($_POST["jurusan"]);
   $alamat  = htmlspecialchars($_POST["alamat"]);
   $status = htmlspecialchars($_POST["status"]);
-  $gambar = htmlspecialchars($_POST["gambar"]);
+  $gambar = htmlspecialchars($_FILES["gambar"]["name"]);
+
+  //simpan gambar ke dalam direktori
+
+  $dir = "gambar/";
+  $tmpFile = $_FILES["gambar"]["tmp_name"];
+
+  move_uploaded_file($tmpFile, $dir.$gambar);
+
+  // die();
 
   //simpan data ke dalam database
 
@@ -161,7 +170,7 @@ if($simpan) {
                   <h6 class="m-0 font-weight-bold text-primary">Form Tambah Data Siswa</h6>
                 </div>
                 <div class="card-body">
-                  <form action="" method="POST">
+                  <form action="" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Nis</label>
                       <input type="text" name="nis" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -198,24 +207,25 @@ if($simpan) {
                     <div class="form-group">
                       <label for="exampleInputPassword1">Status</label>
                     <select class="form-control" name="status" id="select2Single" required>
-                      <option value="">Select</option>
+                      <!-- <option value="">Select</option> -->
                       <option value="1">Aktif</option>
                       <option value="2">Tidak Aktif</option>
                       <option value="3">Lulus</option>
                     </select>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="exampleInputPassword1">Gambar</label>
                       <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required>
-                    </div>
+                    </div> -->
                     
-                    <!-- <div class="form-group">
+                    <div class="form-group">
+                      <label for="customFile">Gambar</label>
                       <div class="custom-file">
-                        <input type="text" class="custom-file-input" id="customFile">
+                        <input type="file" class="custom-file-input" name="gambar" id="customFile" accept="image/*">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                       </div>
-                    </div> -->
+                    </div>
                     
                     <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
                   </form>

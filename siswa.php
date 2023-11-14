@@ -155,7 +155,7 @@ $data = mysqli_query($koneksi, $sql);
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover" width="">
                     <thead class="thead-light">
                       <tr>
-                        <!-- <th>Gambar</th> -->
+                        <th>Gambar</th>
                         <th>Nis</th>
                         <th>Nama</th>
                         <th>Tanggal Lahir</th>
@@ -170,7 +170,7 @@ $data = mysqli_query($koneksi, $sql);
                       
     <?php while($row=mysqli_fetch_assoc($data)): ?>
                        <tr>
-                        <!-- <td><img src="img/logo/logo2.png" width="50"></td> -->
+                        <td><img src="gambar/<?= $row["gambar"];?>" width="50"></td>
                         <td><?= $row["nis"];?></td>
                         <td><?= $row["nama"];?></td>
                         <td><?= $row["tanggal_lahir"];?></td>

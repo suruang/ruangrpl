@@ -6,6 +6,18 @@ require'koneksi/koneksi.php';
 
 $id_siswa = $_GET["id_siswa"];
 
+//hapus gambar yang ada di folder gambar
+$queryShow = "SELECT * FROM siswa WHERE id_siswa='$id_siswa'";
+$sqlShow = mysqli_query($koneksi, $queryShow);
+
+$result = mysqli_fetch_assoc($sqlShow);
+
+// var_dump($result);
+
+unlink("gambar/".$result["gambar"]);
+
+// die();
+
 //query hapus data
 
 $hapus = mysqli_query($koneksi, "DELETE FROM siswa WHERE id_siswa='$id_siswa'");

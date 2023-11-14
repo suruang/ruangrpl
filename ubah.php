@@ -2,6 +2,7 @@
 //panggil file koneksi
 require 'koneksi/koneksi.php';
 
+
 //tangkap id_siswa yg dikirim melalui URL
 $id_siswa = $_GET["id_siswa"];
 
@@ -9,6 +10,68 @@ $id_siswa = $_GET["id_siswa"];
 
 $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'");
 
+
+//cek apakah tombol ubah sudah di klik / belum
+
+if(isset($_POST["ubah"])) {
+
+    //tangkap nilai /data yang ingin diubah melalui variabel $_POST
+
+    $nis = htmlspecialchars($_POST["nis"]);
+    $nama = htmlspecialchars($_POST["nama"]);
+    $tanggal_lahir = htmlspecialchars($_POST["tanggal_lahir"]);
+    $jurusan = htmlspecialchars($_POST["jurusan"]);
+    $alamat = htmlspecialchars($_POST["alamat"]);
+    $status = htmlspecialchars($_POST["status"]);
+
+
+    //fungsi update/ubah gambar
+
+    $queryShow = "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'";
+    $sqlShow = mysqli_query($koneksi, $queryShow);
+    $result = mysqli_fetch_assoc($sqlShow);
+
+    //cek kondisi
+
+    if($_FILES["gambar"]["name"] == "") {
+        $gambar = $result["gambar"];
+    }else {
+       $gambar = $_FILES["gambar"]["name"];
+       unlink("gambar/".$result["gambar"]);
+       move_uploaded_file($_FILES["gambar"]["tmp_name"], "gambar/".$_FILES["gambar"]["name"]);
+    }
+
+    // die();
+
+//jalan proses Ubah
+$ubah = mysqli_query($koneksi, "UPDATE siswa SET 
+
+    nis = '$nis',
+    nama = '$nama',
+    tanggal_lahir = '$tanggal_lahir',
+    jurusan = '$jurusan',
+    alamat = '$alamat',
+    status = '$status',
+    gambar = '$gambar'
+
+    WHERE id_siswa = '$id_siswa'
+
+");
+
+//cek apakah berhasil ubah data / tidak
+if($ubah){
+    echo "<script>
+    alert('Data Berhasil Diubah');
+    document.location.href='siswa.php';
+    </script>";
+}else {
+    echo"<script>
+    alert('Data Gagal diubah');
+    document.location.href='ubah.php';
+    </script>";
+}
+
+}
 
 
 ?>
@@ -136,7 +199,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'
                 </div>
                 <div class="card-body">
                 <?php while($row=mysqli_fetch_assoc($data)) :?>
-                  <form action="" method="POST">
+                  <form action="" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Nis</label>
                       <input type="text" name="nis" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -175,18 +238,20 @@ $data = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id_siswa'
                     <div class="form-group">
                       <label for="exampleInputPassword1">Status</label>
                     <select class="form-control" name="status" id="select2Single">
-                      <option value="">Select</option>
-                      <option value="1">Aktif</option>
-                      <option value="2">Tidak Aktif</option>
-                      <option value="3">Lulus</option>
+              
+                      <option <?php if($row["status"] == 1) {echo "selected";} ?> value="1">Aktif</option>
+                      <option <?php if($row["status"] == 2) {echo "selected";} ?> value="2">Tidak Aktif</option>
+                      <option <?php if($row["status"] == 3) {echo "selected";} ?> value="3">Lulus</option>
+                     
 
-             
+
                     </select>
                     </div>
 
                     <div class="form-group">
                       <label for="exampleInputPassword1">Gambar</label>
-                      <input type="text" name="gambar" class="form-control" id="exampleInputPassword1" placeholder="Gambar" required >
+                      <input  type="file" name="gambar" class="form-control" id="exampleInputPassword1" 
+                      placeholder="Gambar" accept="image/*" >
                     </div>
                     
                     <!-- <div class="form-group">
