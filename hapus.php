@@ -1,3 +1,5 @@
+Ini hanya ujia coba kolaborasi
+
 <?php
 // panggil file koneksi
 require'koneksi/koneksi.php';
